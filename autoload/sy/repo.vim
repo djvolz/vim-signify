@@ -10,6 +10,8 @@ function! sy#repo#detect(bufnr) abort
     let g:signify_detecting += 1
     call sy#repo#get_diff(a:bufnr, vcs, function('sy#sign#set_signs'))
   endfor
+  " Detect generic VCS systems
+  call sy#generic#detect(a:bufnr)
 endfunction
 
 " s:callback_nvim_stdout{{{1
@@ -228,6 +230,11 @@ endfunction
 " s:check_diff_tfs {{{1
 function! s:check_diff_tfs(exitval, diff) abort
   return a:exitval ? [0, []] : [1, s:strip_context(a:diff)]
+endfunction
+
+" s:check_diff_generic {{{1
+function! s:check_diff_generic(exitval, diff) abort
+  return a:exitval <= 1 ? [1, a:diff] : [0, []]
 endfunction
 
 " #get_stats {{{1

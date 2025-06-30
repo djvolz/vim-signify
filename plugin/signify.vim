@@ -10,9 +10,15 @@ let g:loaded_signify = 1
 let g:signify_locked = 0
 let g:signify_detecting = 0
 
+" Initialize generic VCS rules if not already defined
+if !exists('g:signify_vcs_rules')
+  let g:signify_vcs_rules = {}
+endif
+
 " Commands {{{1
 command! -nargs=0 -bar       SignifyList            call sy#debug#list_active_buffers()
 command! -nargs=0 -bar       SignifyDebug           call sy#repo#debug_detection()
+command! -nargs=0 -bar       SignifyDebugGeneric    call sy#generic#debug_rules()
 command! -nargs=0 -bar -bang SignifyFold            call sy#fold#dispatch(<bang>1)
 command! -nargs=0 -bar -bang SignifyDiff            call sy#repo#diffmode(<bang>1)
 command! -nargs=0 -bar       SignifyHunkDiff        call sy#repo#diff_hunk()
